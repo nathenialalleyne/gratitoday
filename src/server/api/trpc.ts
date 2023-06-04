@@ -9,6 +9,7 @@
 
 import { initTRPC, TRPCError } from "@trpc/server";
 import { type CreateNextContextOptions } from "@trpc/server/adapters/next";
+import { IncomingMessage } from "http";
 import { type Session } from "next-auth";
 import superjson from "superjson";
 import { ZodError } from "zod";
@@ -24,6 +25,7 @@ import { prisma } from "~/server/db";
  */
 
 type CreateContextOptions = {
+  req: IncomingMessage;
   session: Session | null;
 };
 
@@ -39,6 +41,7 @@ type CreateContextOptions = {
  */
 const createInnerTRPCContext = (opts: CreateContextOptions) => {
   return {
+    req: opts.req,
     session: opts.session,
     prisma,
   };
@@ -57,6 +60,7 @@ export const createTRPCContext = async (opts: CreateNextContextOptions) => {
   const session = await getServerAuthSession({ req, res });
 
   return createInnerTRPCContext({
+    req,
     session,
   });
 };
@@ -115,6 +119,7 @@ const enforceUserIsAuthed = t.middleware(({ ctx, next }) => {
     ctx: {
       // infers the `session` as non-nullable
       session: { ...ctx.session, user: ctx.session.user },
+
     },
   });
 });

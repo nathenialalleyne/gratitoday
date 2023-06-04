@@ -1,0 +1,15 @@
+{
+  "WillLuke.nextjs.addTypesOnSave": true,
+  "WillLuke.nextjs.hasPrompted": true,
+  "files.associations": {
+    "*.css": "tailwindcss"
+  },
+  "editor.quickSuggestions": {
+    "strings": true
+  },
+  "tailwindCSS.includeLanguages": {
+  "javascriptreact": "html",
+  "typescriptreact": "html",
+  "plaintext": "html"
+}
+}
