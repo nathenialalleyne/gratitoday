@@ -6,12 +6,12 @@ import {generateID} from '~/utils/idGenerator'
 
 
 
-export const createUserRouter = createTRPCRouter({
+export const createJournalRouter = createTRPCRouter({
     createPost: protectedProcedure.input(z.object({journalText: z.string(), journalTitle: z.string()}))
     .mutation(async ({ input, ctx }) => {
         const journalEntry = await ctx.prisma.journalEntry.create({
             data: {
-                id: generateID(),
+                id: generateID(10),
                 title: input.journalTitle,
                 content: input.journalText,
                 userId: ctx.session.user.id,
@@ -21,7 +21,7 @@ export const createUserRouter = createTRPCRouter({
       return journalEntry
     }),
 
-    getAllUsers: publicProcedure.query(async({ctx})=>{
-        return ctx.prisma.journalEntry.findMany()
+    getAllUsersEntries: protectedProcedure.query(async({ctx})=>{
+        return ctx.prisma.journalEntry.findMany({where: {userId: ctx.session.user.id}});
     })
 });

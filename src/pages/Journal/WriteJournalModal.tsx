@@ -2,18 +2,17 @@ import { useState } from "react";
 import { api } from "~/utils/api";
 import Modal from "~/components/ModalBackground";
 
-type Props = {
-  isOpen: boolean;
-};
-
 export default function JournalModal({ isOpen }) {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
-  const createJournalMutation = api.journalRouter.createJournal.useMutation({
-    title: title,
-    content: content,
+  const createJournalMutation = api.journalRouter.createPost.useMutation({
+    input: {
+      journalTitle: title,
+      journalText: content,
+    },
   });
+
   return (
     <div>
       {" "}

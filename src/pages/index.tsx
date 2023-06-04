@@ -10,7 +10,7 @@ import ProfileHome from "./Profile/ProfileHome";
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
 
-  const createAccountMutation = api.UserRouter.createAccount.useMutation();
+  const createAccountMutation = api.UserRouter.createAccount.useMutation({});
   const getAllUsersQuery = api.UserRouter.getAllUsers.useQuery();
 
   const handleClick = () => {
