@@ -11,13 +11,14 @@ export const createJournalRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
         const journalEntry = await ctx.prisma.journalEntry.create({
             data: {
-                id: generateID(10),
+                id: generateID(),
                 title: input.journalTitle,
                 content: input.journalText,
                 userId: ctx.session.user.id,
                 createdAt: new Date(),
-                updatedAt: new Date()
-        }});
+                updatedAt: new Date(),
+            }
+    });
       return journalEntry
     }),
 

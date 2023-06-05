@@ -1,5 +1,6 @@
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
+import JournalModal from "../Journal/WriteJournalModal";
 
 type ProfileHomeProps = {
   username: string;
@@ -10,6 +11,7 @@ function ProfileHome({ username }) {
 
   return (
     <div>
+      <JournalModal isOpen={isOpen} setIsOpen={setIsOpen} />
       <header className={styles.header}>
         {" "}
         <button

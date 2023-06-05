@@ -5,7 +5,7 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { api } from "~/utils/api";
-import ProfileHome from "./Profile/ProfileHome";
+import Profile from "./profile";
 
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
@@ -35,7 +35,9 @@ const Home: NextPage = (props) => {
           Sign In
         </button>
       ) : (
-        session.user.name && <ProfileHome username={session.user.name} />
+        session.user.name && (
+          <Profile username={session.user.name}/>
+        )
       )}
     </>
   );

@@ -1,22 +1,27 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { api } from "~/utils/api";
-import Modal from "~/components/ModalBackground";
+import Modal from "~/components/general/ModalBackground";
 
-export default function JournalModal({ isOpen }) {
+export default function JournalModal({
+  isOpen,
+  setIsOpen,
+}: {
+  isOpen: boolean;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
-  const createJournalMutation = api.journalRouter.createPost.useMutation({
-    input: {
-      journalTitle: title,
-      journalText: content,
-    },
-  });
+  const createJournalMutation = api.journalRouter.createPost.useMutation();
 
   return (
     <div>
       {" "}
-      <Modal showing={isOpen} backgroundClasses={styles.modalBackground}>
+      <Modal
+        showing={isOpen}
+        isShowing={setIsOpen}
+        backgroundClasses={styles.modalBackground}
+      >
         <div className={styles.modalTextBackground}>
           <div>Write below</div>
           <ol>
@@ -32,7 +37,17 @@ export default function JournalModal({ isOpen }) {
               setContent(e.target.value);
             }}
           />
-          <button>send</button>
+          <button
+            onClick={() => {
+              createJournalMutation.mutateAsync({
+                journalTitle: title,
+                journalText: content,
+              });
+              setIsOpen(false);
+            }}
+          >
+            send
+          </button>
         </div>
       </Modal>
     </div>

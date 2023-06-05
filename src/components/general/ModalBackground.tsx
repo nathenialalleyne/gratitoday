@@ -3,21 +3,15 @@ import classNames from "classnames";
 
 type Props = {
   showing: boolean;
+  isShowing: React.Dispatch<React.SetStateAction<boolean>>;
   children: React.ReactNode;
   backgroundClasses?: string;
 };
 
-export default function Modal({ showing, children, backgroundClasses }: Props) {
-  const [isOpen, setIsOpen] = useState(false);
-
-  useEffect(() => {
-    console.log("test");
-    setIsOpen(showing);
-  }, [showing]);
-
-  return isOpen ? (
+export default function Modal({ showing, isShowing, children, backgroundClasses }: Props) {
+  return showing ? (
     <div className={classNames(styles.background, backgroundClasses)}>
-      <button className={styles.close} onClick={() => setIsOpen(false)}>
+      <button className={styles.close} onClick={() => isShowing(false)}>
         close
       </button>
       {children}
