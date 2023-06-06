@@ -22,6 +22,16 @@ export const createJournalRouter = createTRPCRouter({
       return journalEntry
     }),
 
+    deletePost: protectedProcedure.input(z.object({id: z.string()})).mutation(async ({ input, ctx }) => {
+        const journalEntry = await ctx.prisma.journalEntry.delete({
+            where: {
+                id: input.id
+            }
+        });
+        return journalEntry
+    }
+    ),
+
     getAllUsersEntries: protectedProcedure.query(async({ctx})=>{
         return ctx.prisma.journalEntry.findMany({where: {userId: ctx.session.user.id}});
     })

@@ -5,14 +5,26 @@ import Modal from "~/components/general/ModalBackground";
 export default function JournalModal({
   isOpen,
   setIsOpen,
+  refetch,
 }: {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  refetch: () => void;
 }) {
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
 
   const createJournalMutation = api.journalRouter.createPost.useMutation();
+
+  const handleSend = () => {
+    createJournalMutation.mutateAsync({
+      journalTitle: title,
+      journalText: content,
+    }).then(() => {
+      refetch();
+    });
+    setIsOpen(false);
+  }
 
   return (
     <div>
@@ -24,28 +36,20 @@ export default function JournalModal({
       >
         <div className={styles.modalTextBackground}>
           <div>Write below</div>
-          <ol>
+          <ul>
             <label>Title</label>
             <input
               onChange={(e) => {
                 setTitle(e.target.value);
               }}
             ></input>
-          </ol>
+          </ul>
           <textarea
             onChange={(e) => {
               setContent(e.target.value);
             }}
           />
-          <button
-            onClick={() => {
-              createJournalMutation.mutateAsync({
-                journalTitle: title,
-                journalText: content,
-              });
-              setIsOpen(false);
-            }}
-          >
+          <button onClick={handleSend}>
             send
           </button>
         </div>

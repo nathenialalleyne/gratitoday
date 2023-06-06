@@ -1,8 +1,8 @@
 export type JournalEntry = {
-    id:        String   
-    title:     String
-    content:   String
+    id:        string   
+    title:     string
+    content:   string
     createdAt: Date 
     updatedAt: Date
-    userId:  String
+    userId:  string
 }

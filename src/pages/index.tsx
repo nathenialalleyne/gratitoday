@@ -10,7 +10,7 @@ import Profile from "./profile";
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
 
-  const createAccountMutation = api.UserRouter.createAccount.useMutation({});
+  const createAccountMutation = api.UserRouter.createAccount.useMutation();
   const getAllUsersQuery = api.UserRouter.getAllUsers.useQuery();
 
   const handleClick = () => {
@@ -36,7 +36,7 @@ const Home: NextPage = (props) => {
         </button>
       ) : (
         session.user.name && (
-          <Profile username={session.user.name}/>
+          <Profile username={session.user.name} />
         )
       )}
     </>

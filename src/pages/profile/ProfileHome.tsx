@@ -1,17 +1,18 @@
 import { signOut } from "next-auth/react";
 import React, { useState } from "react";
-import JournalModal from "../Journal/WriteJournalModal";
+import JournalModal from "~/components/Journal/WriteJournalModal";
 
 type ProfileHomeProps = {
   username: string;
+  refetch: () => void;
 };
 
-function ProfileHome({ username }) {
+function ProfileHome({ username, refetch }: ProfileHomeProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div>
-      <JournalModal isOpen={isOpen} setIsOpen={setIsOpen} />
+      <JournalModal isOpen={isOpen} setIsOpen={setIsOpen} refetch={refetch} />
       <header className={styles.header}>
         {" "}
         <button
