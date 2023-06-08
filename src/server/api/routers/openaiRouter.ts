@@ -1,19 +1,13 @@
-import { Router } from "@trpc/server";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { openaiClient } from "~/utils/openai";
+import generateQuote from "../tasks/generate-quote";
+import getFormattedDate from "~/utils/date";
+import { prisma } from "~/server/db";
+import { TRPCError } from "@trpc/server";
 
 const getModels = async () => {
   const models = await openaiClient.listModels();
   return models;
-};
-
-const createCompletion = async () => {
-  const completion = await openaiClient.createCompletion({
-    model: "text-babbage-001",
-    prompt: "type the alphabet for me",
-    temperature: 1,
-  });
-  return completion;
 };
 
 export const getOpenAI = createTRPCRouter({
@@ -21,6 +15,28 @@ export const getOpenAI = createTRPCRouter({
     return (await getModels()).data;
   }),
   createCompletion: publicProcedure.query(async () => {
-    return (await createCompletion()).data;
+    try {
+      try {
+        await generateQuote();
+      } catch (e: any) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: e.message,
+        });
+      }
+      return prisma.dailyQuote.findFirst({
+        where: { creationDate: getFormattedDate },
+      });
+    } catch (e) {
+      if (e instanceof Error) {
+        throw new TRPCError({
+          code: "INTERNAL_SERVER_ERROR",
+          message: e.message,
+        });
+      }
+    }
+  }),
+  listCompletions: protectedProcedure.query(async () => {
+    return prisma.dailyQuote.findMany();
   }),
 });
