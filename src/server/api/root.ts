@@ -1,6 +1,7 @@
 import { createUserRouter } from "~/server/api/routers/UserRouter";
 import { createJournalRouter } from "~/server/api/routers/journalRouter";
 import { createTRPCRouter } from "~/server/api/trpc";
+import { getOpenAI } from "./routers/openaiRouter";
 
 /**
  * This is the primary router for your server.
@@ -10,6 +11,7 @@ import { createTRPCRouter } from "~/server/api/trpc";
 export const appRouter = createTRPCRouter({
   UserRouter: createUserRouter,
   journalRouter: createJournalRouter,
+  openaiRouter: getOpenAI,
 });
 
 // export type definition of API

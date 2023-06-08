@@ -10,18 +10,10 @@ import Profile from "./profile";
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
 
-  const createAccountMutation = api.UserRouter.createAccount.useMutation();
-  const getAllUsersQuery = api.UserRouter.getAllUsers.useQuery();
 
   const handleClick = () => {
     signIn();
   };
-
-  useEffect(() => {
-    if (status === "authenticated") {
-      createAccountMutation.mutateAsync();
-    }
-  }, [status]);
 
   return (
     <>

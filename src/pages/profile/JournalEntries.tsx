@@ -1,7 +1,10 @@
 import { JournalEntry as journal } from "~/utils/types";
 import { api } from "~/utils/api";
 
-type Props = { journals: journal[], refetch: () => void };
+type Props = {
+  journals: journal[],
+  refetch: () => void
+};
 
 export default function JournalEntries({ journals, refetch }: Props) {
   const deleteJournalMutation = api.journalRouter.deletePost.useMutation();

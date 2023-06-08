@@ -75,3 +75,11 @@ model VerificationToken {
     @@unique([identifier, token])
 }
 
+model DailyQuote{
+    id        String   @id @default(cuid())
+    quote     String
+    creationDate String
+
+    @@unique([creationDate])
+}
+
