@@ -1,6 +1,5 @@
 module.exports = {
   plugins: [
-    'simple-import-sort',
     '@typescript-eslint/eslint-plugin',
     'prettier',
   ],
@@ -17,13 +16,9 @@ module.exports = {
     jest: true,
   },
   rules: {
-    'react/react-in-jsx-scope': 'off',
-    'simple-import-sort/imports': 'error',
-    'simple-import-sort/exports': 'error',
     'react-hooks/exhaustive-deps': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
-    '@typescript-eslint/interface-name-prefix': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
     '@typescript-eslint/no-namespace': ['error',
@@ -38,7 +33,6 @@ module.exports = {
         }
       }
     ],
-    'react/display-name': 'off',
     'prettier/prettier': 'error',
   },
   settings: {
