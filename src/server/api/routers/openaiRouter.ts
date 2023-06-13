@@ -1,6 +1,5 @@
 import { createTRPCRouter, protectedProcedure, publicProcedure } from "../trpc";
 import { openaiClient } from "~/utils/openai";
-import generateQuote from "../tasks/generate-quote";
 import getFormattedDate from "~/utils/date";
 import { prisma } from "~/server/db";
 import { TRPCError } from "@trpc/server";
