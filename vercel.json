@@ -1,18 +1,4 @@
 {
-  "functions": {
-    "api/tasks/generate-quote.ts": {
-      "handler": "api/tasks/generate-quote.ts",
-      "events": [
-        {
-          "http": {
-            "method": "get",
-            "path": "tasks/generate-quote"
-          }
-        }
-      ]
-    }
-  },
-
   "crons": [
     {
       "path": "/api/tasks/",
