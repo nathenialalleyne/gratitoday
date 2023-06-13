@@ -2,7 +2,7 @@ import { Router } from "@trpc/server";
 import { string, z } from "zod";
 import { createTRPCRouter, protectedProcedure, publicProcedure } from '../trpc';
 import { prisma } from '../../db';
-import {generateID} from '~/utils/idGenerator'
+import { v4 as uuidv4 } from 'uuid';
 
 
 
@@ -11,7 +11,7 @@ export const createJournalRouter = createTRPCRouter({
     .mutation(async ({ input, ctx }) => {
         const journalEntry = await ctx.prisma.journalEntry.create({
             data: {
-                id: generateID(),
+                id: uuidv4(),
                 title: input.journalTitle,
                 content: input.journalText,
                 userId: ctx.session.user.id,

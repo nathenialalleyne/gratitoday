@@ -1,8 +1,12 @@
 import { prisma } from "~/server/db";
 import { openaiClient } from "~/utils/openai";
-import { generateID } from "~/utils/idGenerator";
 import getFormattedDate from "~/utils/date";
-import { NextApiRequest, NextApiResponse } from "next";
+import type { NextApiRequest, NextApiResponse } from "next";
+import { v4 as uuidv4 } from "uuid";
+
+export const config = {
+  runtime: "edge",
+};
 
 export default async function handler(
   req: NextApiRequest,
@@ -29,7 +33,7 @@ export default async function handler(
         const quote = response.data.choices[0].message.content;
         await prisma.dailyQuote.create({
           data: {
-            id: generateID(),
+            id: uuidv4(),
             quote: quote,
             creationDate: getFormattedDate,
           },

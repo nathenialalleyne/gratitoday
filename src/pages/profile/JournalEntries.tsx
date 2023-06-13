@@ -14,8 +14,8 @@ export default function JournalEntries({ journals, refetch }: Props) {
         return <div key={i}>{x.content}
           <button
             className={styles.deleteButton}
-            onClick={() => {
-              deleteJournalMutation.mutateAsync({ id: x.id }).then(() => {
+            onClick={async () => {
+              await deleteJournalMutation.mutateAsync({ id: x.id }).then(() => {
                 refetch();
               })
             }

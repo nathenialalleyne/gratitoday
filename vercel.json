@@ -1,23 +1,8 @@
 {
-  "builds": [
+  "crons": [
     {
-      "src": "api/tasks/generate-quote.js",
-      "use": "@vercel/node"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/api/generate-quote",
-      "methods": ["POST"],
-      "headers": {
-        "Content-Type": "application/json"
-      },
-      "crons": [
-        {
-          "path": "/api/tasks/generate-quote.js",
-          "schedule": "0 5 * * *"
-        }
-      ]
+      "path": "/api/task/generate-quote.ts",
+      "schedule": "1 0 * * *"
     }
   ]
 }
