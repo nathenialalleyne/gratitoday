@@ -16,14 +16,6 @@ export const getOpenAI = createTRPCRouter({
   }),
   createCompletion: publicProcedure.query(async () => {
     try {
-      try {
-        await generateQuote();
-      } catch (e: any) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: e.message,
-        });
-      }
       return prisma.dailyQuote.findFirst({
         where: { creationDate: getFormattedDate },
       });
