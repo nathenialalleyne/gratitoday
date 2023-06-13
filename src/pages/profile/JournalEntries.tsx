@@ -10,7 +10,7 @@ export default function JournalEntries({ journals, refetch }: Props) {
   const deleteJournalMutation = api.journalRouter.deletePost.useMutation();
   return (
     <div>
-      {journals.map((x, i) => {
+      {journals?.map((x, i) => {
         return <div key={i}>{x.content}
           <button
             className={styles.deleteButton}
