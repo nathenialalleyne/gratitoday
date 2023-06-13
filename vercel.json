@@ -12,7 +12,12 @@
       "headers": {
         "Content-Type": "application/json"
       },
-      "schedule": "cron(10 0 * * *)"
+      "crons": [
+        {
+          "path": "/api/tasks/generate-quote.js",
+          "schedule": "0 5 * * *"
+        }
+      ]
     }
   ]
 }
