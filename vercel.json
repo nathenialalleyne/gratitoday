@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/task/generate-quote.ts",
+      "path": "/api/task/",
       "schedule": "1 0 * * *"
     }
   ]
