@@ -11,8 +11,8 @@ const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
 
 
-  const handleClick = () => {
-    signIn();
+  const handleClick = async () => {
+    await signIn();
   };
 
   return (

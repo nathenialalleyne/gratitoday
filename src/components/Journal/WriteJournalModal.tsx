@@ -16,8 +16,8 @@ export default function JournalModal({
 
   const createJournalMutation = api.journalRouter.createPost.useMutation();
 
-  const handleSend = () => {
-    createJournalMutation.mutateAsync({
+  const handleSend = async () => {
+    await createJournalMutation.mutateAsync({
       journalTitle: title,
       journalText: content,
     }).then(() => {

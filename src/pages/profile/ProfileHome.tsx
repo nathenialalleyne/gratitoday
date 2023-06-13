@@ -16,9 +16,9 @@ function ProfileHome({ username, refetch }: ProfileHomeProps) {
       <header className={styles.header}>
         {" "}
         <button
-          onClick={(e) => {
+          onClick={async (e) => {
             e.preventDefault();
-            signOut();
+            await signOut();
           }}
         >
           sign out
