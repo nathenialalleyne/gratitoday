@@ -4,6 +4,10 @@ import getFormattedDate from "~/utils/date";
 import type { NextApiRequest, NextApiResponse } from "next";
 import { v4 as uuidv4 } from "uuid";
 
+export const config = {
+  runtime: "edge",
+};
+
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
