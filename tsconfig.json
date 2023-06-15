@@ -24,7 +24,10 @@
     "paths": {
       "~/*": [
         "./src/*"
-      ]
+      ],
+      "~/icons": [
+        "./src/components/icons/"
+      ],
     }
   },
   "include": [

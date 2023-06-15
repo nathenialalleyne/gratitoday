@@ -10,24 +10,12 @@ const getModels = async () => {
 };
 
 export const getOpenAI = createTRPCRouter({
-  listModels: publicProcedure.query(async () => {
-    return (await getModels()).data;
-  }),
-  createCompletion: publicProcedure.query(async () => {
-    try {
-      return prisma.dailyQuote.findFirst({
-        where: { creationDate: getFormattedDate },
-      });
-    } catch (e) {
-      if (e instanceof Error) {
-        throw new TRPCError({
-          code: "INTERNAL_SERVER_ERROR",
-          message: e.message,
-        });
-      }
-    }
-  }),
-  listCompletions: protectedProcedure.query(async () => {
+  getDailyQuote: protectedProcedure.query(async () => {
     return prisma.dailyQuote.findMany();
+  }),
+  getTodaysQuote: publicProcedure.query(async () => {
+    return prisma.dailyQuote.findFirst({
+      where: { creationDate: getFormattedDate },
+    });
   }),
 });
