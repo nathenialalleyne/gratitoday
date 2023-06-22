@@ -6,14 +6,21 @@ import Link from "next/link";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { api } from "~/utils/api";
 import Profile from "./profile";
+import getFormattedDate from "~/utils/date";
 
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
+  const { data, refetch } = api.openaiRouter.getTodaysQuote.useQuery(undefined, { enabled: false })
 
 
   const handleClick = async () => {
     await signIn();
   };
+
+  useEffect(() => {
+    refetch()
+    console.log(getFormattedDate)
+  }, [])
 
   return (
     <>
@@ -30,7 +37,9 @@ const Home: NextPage = (props) => {
         session.user.name && (
           <Profile username={session.user.name} />
         )
+
       )}
+      <div>{data?.quote}</div>
     </>
   );
 };

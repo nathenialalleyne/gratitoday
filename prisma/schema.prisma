@@ -34,6 +34,14 @@ model Account {
     @@unique([provider, providerAccountId])
 }
 
+model Auth{
+    email String
+    password String
+    userId String
+    user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+    @@unique([email, userId])
+}
+
 model Session {
     id           String   @id @default(cuid())
     sessionToken String   @unique
@@ -51,6 +59,7 @@ model User {
     accounts      Account[]
     sessions      Session[]
     journals      JournalEntry[]
+    auth          Auth[]
 }
 
 model JournalEntry {

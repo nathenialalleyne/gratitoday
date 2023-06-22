@@ -15,29 +15,6 @@ export default function Signin() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const { data, refetch } = api.openaiRouter.getTodaysQuote.useQuery(undefined, {
-        enabled: false
-    });
-
-    useEffect(() => {
-        refetch();
-    }, [])
-
-
-    const handleSubmit = async (e: any) => {
-        e.preventDefault();
-
-        const result = await signIn('credentials', {
-            redirect: false,
-            email,
-            password,
-        });
-
-        if (!result?.error) {
-            router.push('/dashboard'); // Redirect to the dashboard on successful signin
-        }
-    };
-
     return (
         <div className={styles.background} >
             <LoginContainer />
