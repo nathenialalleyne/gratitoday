@@ -29,7 +29,7 @@ export default function Navbar({ }: Props) {
 }
 
 const styles = {
-    container: 'w-full h-14 bg-gray-800 flex justify-end items-center p-4',
+    container: 'w-full h-14 bg-gray-800 flex justify-end items-center p-4 absolute',
     signInButton: 'h-4 w-fit p-4 bg-gray-300 rounded-full hover:bg-gray-400 gap-2',
     signInSpan: 'flex items-center gap-2',
     menuList: 'text-left'

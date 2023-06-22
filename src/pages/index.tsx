@@ -8,6 +8,7 @@ import { api } from "~/utils/api";
 import Profile from "./dashboard";
 import getFormattedDate from "~/utils/date";
 import Navbar from "~/components/Navbar";
+import LandingPage from "~/components/Landing";
 
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
@@ -24,11 +25,10 @@ const Home: NextPage = (props) => {
   }, [])
 
   return (
-    <>
+    <div className="overflow-hidden relative">
       <Navbar />
-
-      <div>{data?.quote}</div>
-    </>
+      <LandingPage />
+    </div>
   );
 };
 
