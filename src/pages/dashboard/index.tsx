@@ -5,7 +5,7 @@ import JournalEntries from "./JournalEntries";
 import { api } from "~/utils/api";
 
 
-export default function Profile({ username }: { username: string }) {
+export default function Dashboard({ username }: { username: string }) {
   const router = useRouter();
   const { data, isLoading, refetch, isSuccess } =
     api.journalRouter.getAllUsersEntries.useQuery(undefined, {

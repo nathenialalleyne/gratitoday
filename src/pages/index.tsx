@@ -5,8 +5,9 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { api } from "~/utils/api";
-import Profile from "./profile";
+import Profile from "./dashboard";
 import getFormattedDate from "~/utils/date";
+import Navbar from "~/components/Navbar";
 
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
@@ -24,21 +25,8 @@ const Home: NextPage = (props) => {
 
   return (
     <>
-      {status !== "authenticated" ? (
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleClick();
-          }}
-        >
-          Sign In
-        </button>
-      ) : (
-        session.user.name && (
-          <Profile username={session.user.name} />
-        )
+      <Navbar />
 
-      )}
       <div>{data?.quote}</div>
     </>
   );
