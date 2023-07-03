@@ -1,16 +1,16 @@
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Modal from "~/components/general/ModalBackground";
 
 type ProfileHomeProps = {
-  username: string;
   refetch: () => void;
 };
 
-function ProfileHome({ username, refetch }: ProfileHomeProps) {
+function ProfileHome({ refetch }: ProfileHomeProps) {
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
+  const session = useSession();
 
   useEffect(() => {
     if (router.query.journalName) {
@@ -41,7 +41,7 @@ function ProfileHome({ username, refetch }: ProfileHomeProps) {
           router.push('/write')
         }}>write journal</button>
       </header>
-      <div>Hello, {username}!</div>
+      <div>Hello, {session.data?.user.name}!</div>
     </div>
   );
 }

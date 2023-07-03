@@ -5,7 +5,7 @@ import JournalEntries from "./JournalEntries";
 import { api } from "~/utils/api";
 
 
-export default function Dashboard({ username }: { username: string }) {
+export default function Dashboard() {
   const router = useRouter();
   const { data, isLoading, refetch, isSuccess } =
     api.journalRouter.getAllUsersEntries.useQuery(undefined, {
@@ -23,7 +23,7 @@ export default function Dashboard({ username }: { username: string }) {
 
   return (
     <div>
-      <ProfileHome username={username} refetch={refetch} />
+      <ProfileHome refetch={refetch} />
       {isLoading ? null : isSuccess && <JournalEntries journals={data} refetch={refetch} />}
       {openaiload ? null : <div>{openaiData?.quote} </div>}
     </div>
