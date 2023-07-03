@@ -21,6 +21,8 @@ export default function Navbar({ }: Props) {
                     <MenuItem onClick={() => signIn('google')}>Google</MenuItem>
                     <MenuItem onClick={() => { signIn('facebook') }}>Facebook</MenuItem>
                     <MenuItem onClick={() => signIn('twitter')}>Twitter</MenuItem>
+                    <MenuItem onClick={() => signIn('discord', { redirect: true, callbackUrl: '/dashboard' })}>Discord</MenuItem>
+
 
                 </MenuList>
             </Menu>

@@ -85,6 +85,10 @@ export const authOptions: NextAuthOptions = {
 			clientId: env.TWITTER_CLIENT_ID,
 			clientSecret: env.TWITTER_CLIENT_SECRET,
 		}),
+		DiscordProvider({
+			clientId: env.DISCORD_CLIENT_ID,
+			clientSecret: env.DISCORD_CLIENT_SECRET,
+		}),
 	],
 	pages: {
 		signIn: '../../signIn',

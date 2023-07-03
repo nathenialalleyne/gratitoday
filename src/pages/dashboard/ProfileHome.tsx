@@ -1,6 +1,7 @@
 import { signOut } from "next-auth/react";
-import React, { useState } from "react";
-import JournalModal from "~/components/Journal/WriteJournalModal";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import Modal from "~/components/general/ModalBackground";
 
 type ProfileHomeProps = {
   username: string;
@@ -9,10 +10,23 @@ type ProfileHomeProps = {
 
 function ProfileHome({ username, refetch }: ProfileHomeProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+
+  useEffect(() => {
+    if (router.query.journalName) {
+      setIsOpen(true)
+      console.log('test')
+    }
+  }, [])
 
   return (
     <div>
-      <JournalModal isOpen={isOpen} setIsOpen={setIsOpen} refetch={refetch} />
+      {router.query.journalName && (<Modal isShowing={setIsOpen} showing={isOpen}>
+        <div>
+          <div>Journal created!</div>
+          <div>Click <a href={`/journal/${router.query.journalName}`}>here</a> to view it.</div>
+        </div>
+      </Modal>)}
       <header className={styles.header}>
         {" "}
         <button
@@ -23,7 +37,9 @@ function ProfileHome({ username, refetch }: ProfileHomeProps) {
         >
           sign out
         </button>
-        <button onClick={() => setIsOpen(!isOpen)}>write journal</button>
+        <button onClick={() => {
+          router.push('/write')
+        }}>write journal</button>
       </header>
       <div>Hello, {username}!</div>
     </div>
