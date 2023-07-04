@@ -9,7 +9,7 @@ export default async function handler(
 	res: NextApiResponse,
 ) {
 	const prompt =
-		'Please provide a meaningful quote followed by a less than a paragraph of reflection. i dont want you to reflect i want something i can reflect on throughout my day, like the daily quote app, but something that will give me something genuine to approach and think about. im making an app where people get quotes like this and can write journals about them during their day, make the quote fit the theme of said app'
+		"Give me a passage written by you or taken from somewhere OR a quote from someone (make it 50/50 whichever you choose to give) to  reflect on throughout the day, that can be a quote or a passage you think of, anything that works, to be clear it doesn't have to be a quote, i prefer that you mix it up"
 	try {
 		if (
 			await prisma.dailyQuote.findFirst({
