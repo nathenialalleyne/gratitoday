@@ -1,10 +1,13 @@
 /** @type {import("prettier").Config} */
 const config = {
     plugins: [require.resolve("prettier-plugin-tailwindcss")],
-    printWidth: 100,
-    singleQuote: true,
-    trailingComma: "es5",
-    bracketSameLine: false,
+    'semi': false,
+    'singleQuote': true,
+    'useTabs': true,
+    'proseWrap': "always",
+    'printWidth': 80,
+    "endOfLine": 'lf',
+    "trailingComma": "all",
 };
 
 module.exports = config;

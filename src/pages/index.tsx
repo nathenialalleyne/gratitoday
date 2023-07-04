@@ -5,33 +5,24 @@ import Head from "next/head";
 import Link from "next/link";
 import React, { FormEventHandler, useEffect, useState } from "react";
 import { api } from "~/utils/api";
-import Profile from "./profile";
+import getFormattedDate from "~/utils/date";
+import Navbar from "~/components/Navbar";
+import LandingPage from "~/components/Landing";
 
 const Home: NextPage = (props) => {
   const { data: session, status } = useSession();
+  const { data, refetch } = api.openaiRouter.getTodaysQuote.useQuery(undefined, { enabled: false })
 
-
-  const handleClick = async () => {
-    await signIn();
-  };
+  useEffect(() => {
+    refetch()
+    console.log(getFormattedDate)
+  }, [])
 
   return (
-    <>
-      {status !== "authenticated" ? (
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            handleClick();
-          }}
-        >
-          Sign In
-        </button>
-      ) : (
-        session.user.name && (
-          <Profile username={session.user.name} />
-        )
-      )}
-    </>
+    <div className="overflow-hidden relative">
+      <Navbar />
+      <LandingPage />
+    </div>
   );
 };
 
