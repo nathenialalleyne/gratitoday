@@ -8,14 +8,11 @@ import {
 import DiscordProvider from 'next-auth/providers/discord'
 import GoogleProvider from 'next-auth/providers/google'
 import CredentialsProvider from 'next-auth/providers/credentials'
-import AppleProvider from 'next-auth/providers/apple'
 import FacebookProvider from 'next-auth/providers/facebook'
 import TwitterProvider from 'next-auth/providers/twitter'
 
 import { env } from '~/env.mjs'
 import { prisma } from '~/server/db'
-import { v4 as uuidv4 } from 'uuid'
-import { encrypt, compare } from '~/utils/hash'
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -55,24 +52,6 @@ export const authOptions: NextAuthOptions = {
 	},
 	adapter: PrismaAdapter(prisma),
 	providers: [
-		CredentialsProvider({
-			type: 'credentials',
-			credentials: {},
-			async authorize(credentials, req) {
-				const { email, password } = credentials as {
-					email: string
-					password: string
-				}
-
-				if (await prisma.user.findUnique({ where: { email } })) {
-					const user = await prisma.user.findFirst({ where: { email } })
-					return user
-				} else {
-					return null
-					// You can also Reject this callback with an Error thus the user will be sent to the error page with the error message as a query parameter
-				}
-			},
-		}),
 		GoogleProvider({
 			clientId: env.GOOGLE_CLIENT_ID,
 			clientSecret: env.GOOGLE_CLIENT_SECRET,
@@ -90,9 +69,6 @@ export const authOptions: NextAuthOptions = {
 			clientSecret: env.DISCORD_CLIENT_SECRET,
 		}),
 	],
-	pages: {
-		signIn: '../../signIn',
-	},
 }
 
 /**
