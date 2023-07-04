@@ -1,5 +1,6 @@
 import { JournalEntry as journal } from "~/utils/types";
 import { api } from "~/utils/api";
+import Link from "next/link";
 
 type Props = {
   journals: journal[],
@@ -19,7 +20,15 @@ export default function JournalEntries({ journals, refetch }: Props) {
                 refetch();
               })
             }
-            }>delete post</button></div>;
+            }>delete post</button>
+          <button className={styles.goToButton}>
+            <Link
+              href={`/journal/${x.id}`}
+            >
+              go to post
+            </Link>
+          </button>
+        </div>;
       })}
     </div >
   );
@@ -27,4 +36,5 @@ export default function JournalEntries({ journals, refetch }: Props) {
 
 const styles = {
   deleteButton: "text-red-500",
+  goToButton: "text-blue-500"
 }

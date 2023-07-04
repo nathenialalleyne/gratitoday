@@ -4,76 +4,69 @@ import { api } from '~/utils/api'
 import LoaderCircle from '~/components/icons/LoaderCircle'
 import { query } from 'winston'
 
-export default function WritePage() {
+type Props = {
+    editContent?: string
+    editTitle?: string
+    id?: string
+}
+
+
+
+export default function WritePage({ editContent, editTitle, id }: Props) {
     const router = useRouter()
     const writeRef = useRef<HTMLDivElement>(null)
     const containerRef = useRef<HTMLDivElement>(null)
 
+    const { data, refetch } = api.journalRouter.getSpecificEntry.useQuery({ id: id as string }, { enabled: false })
+    const createRouter = api.journalRouter.createJournal.useMutation()
+    const editRouter = api.journalRouter.editSpecificEntry.useMutation()
+
     const [focus, setFocus] = useState(false)
+
+    const [editting, setEditting] = useState<boolean>(false)
     const [text, setText] = useState<string>('')
-    const [title, setTitle] = useState<string>('')
+    const [title, setTitle] = useState<string>(data?.title ?? '')
     const [creating, setCreating] = useState<boolean>(false)
 
-    const createRouter = api.journalRouter.createJournal.useMutation()
 
 
-    const handleTab = (e: React.KeyboardEvent<HTMLDivElement>) => {
-        // const getCursorPosition = () => {
-        //     const selection = window.getSelection();
-        //     if (selection && selection.rangeCount > 0) {
-        //         const range = selection.getRangeAt(0);
-        //         const clonedRange = range.cloneRange();
-        //         clonedRange.selectNodeContents(writeRef.current!);
-        //         clonedRange.setEnd(range.startContainer, range.startOffset);
-        //         return clonedRange.toString().length;
-        //     }
-        //     return -1;
-        // };
-        // if (e.key === 'Tab') {
-        //     e.preventDefault()
 
-        //     const cursorPosition = getCursorPosition();
-        //     const text = writeRef.current!.innerText
-        //     const newText = text.slice(0, cursorPosition) + '\u00A0\u00A0\u00A0\u00A0' + text.slice(cursorPosition)
-        //     writeRef.current!.innerText = newText
+    useEffect(() => {
+        async function getQuote() {
+            if (!id) return
+            const response = await refetch()
+            setText(response.data?.content as string)
+            setTitle(response.data?.title as string)
+        }
 
-        //     const selection = window.getSelection();
-        //     const range = document.createRange();
-        //     range.setStart(writeRef.current!, cursorPosition + 1);
-        //     range.collapse(true);
-
-        //     if (selection) {
-        //         selection.removeAllRanges();
-        //         selection.addRange(range);
-        //     }
-        // }
-
-        // if (e.key === 'Backspace') {
-        //     const cursorPosition = getCursorPosition();
-        //     const text = writeRef.current!.innerText
-        //     const split = text.split('')
-        //     if (split[cursorPosition] === '\u00A0') {
-        //         e.preventDefault()
-        //         const newText = text.slice(0, cursorPosition - 4) + text.slice(cursorPosition)
-        //         writeRef.current!.innerText = newText
-        //     }
-        // }
-    }
+        getQuote()
+    }, [id])
 
     const createJournal = async () => {
         if (text === '' || title === '') return
         setCreating(true)
         await createRouter.mutateAsync({ journalTitle: title, journalText: text })
         setCreating(false)
-        router.push('/dashboard', { query: { journal: title } })
+        router.push({ pathname: '/dashboard', query: { journalName: title } })
     }
+
+    const editJournal = async () => {
+        console.log('editting')
+        if (!id) return
+        if (text === '' || title === '') return
+        setCreating(true)
+        await editRouter.mutateAsync({ id: id, journalTitle: title, journalText: text })
+        setCreating(false)
+        router.push({ pathname: '/dashboard' })
+    }
+
 
     return (
         <div className={styles.wholeContainer}>
             {creating ? <LoaderCircle w={60} h={60} /> :
                 <div className={styles.container}>
                     <button onClick={() => router.push('/dashboard')}>Go to dashboard</button>
-                    <input onChange={(e) => setTitle(e.target.value)} className={styles.title}></input>
+                    <input value={title} onChange={(e) => setTitle(e.target.value)} className={styles.title}></input>
                     <ul className={styles.buttonContainer}>
                         <button className={styles.textButton}><strong>B</strong></button>
                         <button className={styles.textButton}><em>I</em></button>
@@ -99,17 +92,25 @@ export default function WritePage() {
                             }}
                             data-write
                         >
-                            {/* {!focus ? <div>Write your journal here...</div> : null} */}
+                            {data ? data.content : null}
                         </div>
                     </div>
 
                     <div className={styles.submitWrapper}>
-                        <button
-                            onClick={createJournal}
-                            className={styles.submitButton}
-                        >
-                            Create Journal
-                        </button>
+                        {editting ?
+                            <button
+                                onClick={createJournal}
+                                className={styles.submitButton}
+                            >
+                                Create Journal
+                            </button>
+                            :
+                            <button
+                                onClick={editJournal}
+                                className={styles.submitButton}
+                            >
+                                Edit Journal
+                            </button>}
                     </div>
                 </div>
             }

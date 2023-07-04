@@ -35,4 +35,26 @@ export const createJournalRouter = createTRPCRouter({
 			where: { userId: ctx.session.user.id },
 		})
 	}),
+
+	getSpecificEntry: protectedProcedure
+		.input(z.object({ id: z.string() }))
+		.query(async ({ input, ctx }) => {
+			return ctx.prisma.journalEntry.findUnique({
+				where: { id: input.id },
+			})
+		}),
+	editSpecificEntry: protectedProcedure
+		.input(z.object({ id: z.string(), journalText: z.string(), journalTitle: z.string() }))
+		.mutation(async ({ input, ctx }) => {
+			const journalEntry = await ctx.prisma.journalEntry.update({
+				where: {
+					id: input.id,
+				},
+				data: {
+					title: input.journalTitle,
+					content: input.journalText,
+				},
+			})
+			return journalEntry
+		})
 })
